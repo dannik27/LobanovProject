@@ -62,6 +62,9 @@ public class GameSocket {
 
                                     listener.onGameOver(response.get("game").asInt(), scores);
                                     break;
+                                case "error" :
+                                    listener.onError(response.get("error").asText());
+                                    break;
                             }
 
                         }
@@ -99,6 +102,7 @@ public class GameSocket {
         void onStart(int gameId, double terminationProbability, int hand, Matrix matrix);
         void onEnemyMove(int gameId, int[] strategies);
         void onGameOver(int gameId, double[] scores);
+        void onError(String message);
 
     }
 

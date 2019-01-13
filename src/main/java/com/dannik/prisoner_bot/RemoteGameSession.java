@@ -85,6 +85,12 @@ public class RemoteGameSession {
                 MatrixUtils.printMatrix(player.getMatrix());
             }
 
+            @Override
+            public void onError(String message) {
+                System.out.printf("%s Error received: %s \n", prefix, message);
+                websocket.disconnect();
+            }
+
 
         });
         websocket.connect();

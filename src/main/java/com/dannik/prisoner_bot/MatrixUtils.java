@@ -32,6 +32,23 @@ public class MatrixUtils {
         return matrix;
     }
 
+    public static Matrix createChickenMatrix() {
+        Random random = new Random();
+
+        int a = 0;
+        int b = 1 + random.nextInt(10);
+        int c = b * (-1);
+        int d = (b + 10 + random.nextInt(100)) * (-1);
+
+        Matrix matrix = new Matrix(2);
+        matrix.set(0, 0, a); // не сдал/не сдал
+        matrix.set(0, 1, c); // не сдал/сдал
+        matrix.set(1, 0, b); // сдал/не сдал
+        matrix.set(1, 1, d); // сдал/сдал
+
+        return matrix;
+    }
+
     public static Matrix createRandomMatrix(){
         Random random = new Random();
 
