@@ -1,6 +1,7 @@
 package com.dannik.prisoner_bot;
 
 
+import com.dannik.prisoner_bot.prisoners.adv.AdvancedPlayer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.BooleanUtils;
@@ -66,6 +67,11 @@ public class RemoteGameSession {
 
                 try {
                     Player player = playerClass.getConstructor(String.class).newInstance("kekes");
+
+                    if (player instanceof AdvancedPlayer) {
+                        ((AdvancedPlayer) player).setTerminationProbability(terminationProbability);
+                    }
+
                     player.setMatrix(matrix);
                     player.setEnemy(null);
                     player.setHand(hand);

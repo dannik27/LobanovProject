@@ -1,21 +1,21 @@
-package com.dannik.prisoner_bot.prisoners;
+package com.dannik.prisoner_bot.prisoners.simple;
 
 import com.dannik.prisoner_bot.Player;
 import com.dannik.prisoner_bot.PlayerUtils;
 
-public class NaivePlayer extends Player {
+public class CooperativePlayer extends Player {
 
-    public NaivePlayer(String name) {
+    public CooperativePlayer(String name) {
         super(name);
     }
 
     public int ask() {
-        return PlayerUtils.bestScore(currentMatrix) == 1 ? 0 : 1;
+        return PlayerUtils.bestScoreForBoth(currentMatrix);
     }
 
     @Override
     public String getStrategyName() {
-        return "Naive";
+        return "Cooperator";
     }
 
     @Override

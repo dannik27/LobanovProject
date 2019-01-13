@@ -1,4 +1,4 @@
-package com.dannik.prisoner_bot.prisoners;
+package com.dannik.prisoner_bot.prisoners.simple;
 
 import com.dannik.prisoner_bot.Player;
 import com.dannik.prisoner_bot.PlayerUtils;

@@ -1,7 +1,18 @@
 package com.dannik.prisoner_bot;
 
-import com.dannik.prisoner_bot.drivers.*;
-import com.dannik.prisoner_bot.prisoners.*;
+import com.dannik.prisoner_bot.drivers.AggresiveDriver;
+import com.dannik.prisoner_bot.drivers.CarefulDriver;
+import com.dannik.prisoner_bot.drivers.FearfulDriver;
+import com.dannik.prisoner_bot.drivers.FiftyFiftyDriver;
+import com.dannik.prisoner_bot.drivers.RevengefulDriver;
+import com.dannik.prisoner_bot.prisoners.adv.AdvancedPlayer;
+import com.dannik.prisoner_bot.prisoners.simple.CooperativePlayer;
+import com.dannik.prisoner_bot.prisoners.simple.DetectivePlayer;
+import com.dannik.prisoner_bot.prisoners.simple.GreedyPlayer;
+import com.dannik.prisoner_bot.prisoners.simple.MimicPlayer;
+import com.dannik.prisoner_bot.prisoners.simple.ShiftyPlayer;
+import com.dannik.prisoner_bot.prisoners.simple.SimpleNeshPlayer;
+import com.dannik.prisoner_bot.prisoners.simple.SmartCooperativePlayer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class App {
+    private static final double TERMINATION_PROBABILITY = 0.001;
 
     public static void main(String[] args) {
         new App();
@@ -38,6 +50,13 @@ public class App {
 
 
     private void laba1Simulation() {
+        final AdvancedPlayer mainPlayer = new AdvancedPlayer("Main");
+        final AdvancedPlayer mainPlayer2 = new AdvancedPlayer("Main");
+        final AdvancedPlayer mainPlayer3 = new AdvancedPlayer("Main");
+        mainPlayer.setTerminationProbability(TERMINATION_PROBABILITY);
+        mainPlayer2.setTerminationProbability(TERMINATION_PROBABILITY);
+        mainPlayer3.setTerminationProbability(TERMINATION_PROBABILITY);
+
         List<Player> players = new ArrayList<>();
         players.add(new GreedyPlayer("Ivan"));
         players.add(new GreedyPlayer("Semyon"));
@@ -93,7 +112,7 @@ public class App {
                 gameSession.setMatrix(matrix);
                 gameSession.setP1(p1);
                 gameSession.setP2(p2);
-                gameSession.setGamesCount(100);
+                gameSession.setTerminationProbability(TERMINATION_PROBABILITY);
 
                 Map<Player, Double> result = gameSession.start();
 

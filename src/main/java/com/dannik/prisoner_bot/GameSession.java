@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameSession {
-
     private Player p1;
     private Player p2;
     private Matrix matrix;
@@ -63,7 +62,7 @@ public class GameSession {
         this.matrix = matrix;
     }
 
-    public void setGamesCount(int gamesCount) {
-        this.gamesCount = gamesCount;
+    public void setTerminationProbability(double terminationProbability) {
+        this.gamesCount = (int) (1.0 / terminationProbability);
     }
 }

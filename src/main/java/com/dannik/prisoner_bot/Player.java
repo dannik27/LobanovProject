@@ -17,7 +17,7 @@ public abstract class Player {
         this.name = name;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
