@@ -2,7 +2,6 @@ package com.dannik.prisoner_bot;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketException;
@@ -22,6 +21,7 @@ public class GameSocket {
             websocket = new WebSocketFactory()
                     .createSocket(uri)
                     .addListener(new WebSocketAdapter() {
+
                         @Override
                         public void onTextMessage(WebSocket ws, String message) {
 
@@ -41,12 +41,15 @@ public class GameSocket {
                                 case "access" :
                                     listener.onAuthorize(response.get("user").asText());
                                     break;
+                                case "error":
+                                    System.out.println("Error occurred: " + response.get("error"));
+                                    break;
                                 case "start" :
-
                                     int gameid = response.get("game").asInt();
                                     double termProb = response.get("parameters").get("termination_probability").asDouble();
                                     int[] matrixSize = objectMapper.convertValue(response.get("parameters").get("number_of_strategies"), int[].class);
                                     double[][][] matrixValues = objectMapper.convertValue(response.get("parameters").get("payoff"), double[][][].class);
+
                                     int hand = response.get("hand").asInt();
 
                                     listener.onStart(gameid, termProb, hand,

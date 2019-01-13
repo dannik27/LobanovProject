@@ -3,8 +3,10 @@ package com.dannik.prisoner_bot;
 import com.dannik.prisoner_bot.drivers.*;
 import com.dannik.prisoner_bot.prisoners.*;
 
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class App {
 
@@ -108,7 +110,4 @@ public class App {
             System.out.println(prisoner.getName() + " the " + prisoner.getStrategyName() + " : " + totalResult.get(prisoner));
         });
     }
-
-
-
 }

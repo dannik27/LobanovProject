@@ -1,10 +1,10 @@
 package com.dannik.prisoner_bot;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -37,15 +37,27 @@ public class RemoteGameSession {
             public void onConnect(String name, String version) {
                 System.out.printf("%s Connected to server. Game: %s; Version: %s \n", prefix, name, version);
 
+                boolean debug = BooleanUtils.toBoolean(System.getProperty("game.debug"));
+                String login = System.getProperty("game.login");
+                String password = System.getProperty("game.password");
 
                 ObjectNode request = mapper.createObjectNode();
                 request.put("state", "login");
+                request.put("debug", debug);
+
+                if (StringUtils.isNotBlank(login)) {
+                    request.put("login", login);
+                }
+                if (StringUtils.isNotBlank(password)) {
+                    request.put("password", password);
+                }
 
                 websocket.sendMessage(request);
             }
 
             @Override
             public void onAuthorize(String name) {
+
                 System.out.printf("%s Authorized as %s \n", prefix, name);
             }
 
