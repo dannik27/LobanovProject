@@ -41,9 +41,6 @@ public class GameSocket {
                                 case "access" :
                                     listener.onAuthorize(response.get("user").asText());
                                     break;
-                                case "error":
-                                    System.out.println("Error occurred: " + response.get("error"));
-                                    break;
                                 case "start" :
                                     int gameid = response.get("game").asInt();
                                     double termProb = response.get("parameters").get("termination_probability").asDouble();
