@@ -18,7 +18,7 @@ public class GreedyContributor extends Contributor {
   }
 
   @Override
-  public void roundEnd(int result) {
+  public void roundEnd(int[] result) {
 
   }
 }

@@ -59,20 +59,21 @@ public class ContributorGameSession {
                                 int gameid = response.get("game").asInt();
                                 double termProb = response.get("parameters").get("termination_probability").asDouble();
                                 double contribution = response.get("parameters").get("contribution").asDouble();
+                                int hand = response.get("hand").asInt();
                                 double[] income = objectMapper.convertValue(response.get("parameters").get("income"), double[].class);
 
-                                onStart(gameid, termProb, contribution, income);
+                                onStart(gameid, termProb, contribution, income, hand);
                                 break;
                             case "turnover":
-//                                int[] strategies = objectMapper.convertValue(response.get("moves"), int[].class);
-//
-//                                onEnemyMove(response.get("game").asInt(), strategies);
-//                                break;
+                                int[] moves = objectMapper.convertValue(response.get("moves"), int[].class);
+
+                                onEnemyMove(response.get("game").asInt(), moves);
+                                break;
                             case "gameover":
-//                                double[] scores = objectMapper.convertValue(response.get("scores"), double[].class);
-//
-//                                listener.onGameOver(response.get("game").asInt(), scores);
-//                                break;
+                                double[] scores = objectMapper.convertValue(response.get("scores"), double[].class);
+
+                                onGameOver(response.get("game").asInt(), scores);
+                                break;
                             case "error":
                                 handleError(response.get("error").asText());
                                 break;
@@ -125,11 +126,11 @@ public class ContributorGameSession {
         System.out.printf("%s Authorized as %s \n", prefix, name);
     }
 
-    public void onStart(int gameId, double termProb, double contribution, double[] income) {
+    public void onStart(int gameId, double termProb, double contribution, double[] income, int hand) {
 
         try {
             Contributor player = playerClass.getConstructor(String.class).newInstance("kekes");
-            player.gameStarted(contribution, income, termProb);
+            player.gameStarted(contribution, income, termProb, hand);
             tables.put(gameId, player);
 
             makeMove(gameId);
@@ -142,7 +143,7 @@ public class ContributorGameSession {
     }
 
 
-    public void onEnemyMove(int gameId, int result) {
+    public void onEnemyMove(int gameId, int[] result) {
         Contributor player = tables.get(gameId);
         player.roundEnd(result);
 

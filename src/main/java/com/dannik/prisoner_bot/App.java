@@ -38,7 +38,8 @@ public class App {
 
 //        laba2Simulation();
 
-        runContributorBot(GreedyContributor.class, 20, true, "[1]");
+        runContributorBot(GreedyContributor.class, 50, true, "[1]");
+        runContributorBot(GreedyContributor.class, 50, false, "[2]");
 
     }
 
@@ -63,19 +64,26 @@ public class App {
     private void runContributorBot( Class<? extends Contributor> playerClass,
                               int timeoutSeconds, boolean debug, String logPrefix) {
 
-        ContributorGameSession contributorGameSession = new ContributorGameSession();
-        contributorGameSession.setUri(CONTRIBUTOR_URL);
-        contributorGameSession.setPrefix(logPrefix);
-        contributorGameSession.setPlayer(playerClass);
-        contributorGameSession.setDebug(debug);
-        contributorGameSession.start();
+        Runnable gameThread = () -> {
 
-        try {
-            TimeUnit.SECONDS.sleep(timeoutSeconds);
-            contributorGameSession.stop();
-        } catch (InterruptedException e) {
+            ContributorGameSession contributorGameSession = new ContributorGameSession();
+            contributorGameSession.setUri(CONTRIBUTOR_URL);
+            contributorGameSession.setPrefix(logPrefix);
+            contributorGameSession.setPlayer(playerClass);
+            contributorGameSession.setDebug(debug);
+            contributorGameSession.start();
 
-        }
+            try {
+                TimeUnit.SECONDS.sleep(timeoutSeconds);
+                contributorGameSession.stop();
+            } catch (InterruptedException e) {
+
+            }
+        };
+
+
+        new Thread(gameThread).start();
+
     }
 
     private void laba1Simulation() {
