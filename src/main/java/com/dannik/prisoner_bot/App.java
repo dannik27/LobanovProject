@@ -1,5 +1,7 @@
 package com.dannik.prisoner_bot;
 
+import com.dannik.prisoner_bot.contributors.Contributor;
+import com.dannik.prisoner_bot.contributors.GreedyContributor;
 import com.dannik.prisoner_bot.drivers.AggresiveDriver;
 import com.dannik.prisoner_bot.drivers.CarefulDriver;
 import com.dannik.prisoner_bot.drivers.FearfulDriver;
@@ -18,9 +20,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class App {
     private static final double TERMINATION_PROBABILITY = 0.001;
+    private static final String PRISONERS_URL = "ws://dmc.alepoydes.com:3012";
+    private static final String CONTRIBUTOR_URL = "ws://dmc.alepoydes.com:3014";
+
 
     public static void main(String[] args) {
         new App();
@@ -28,26 +34,49 @@ public class App {
 
     App(){
 
-//        RemoteGameSession remoteGameSession = new RemoteGameSession();
-//        remoteGameSession.setUri("ws://dmc.alepoydes.com:3012");
-//        remoteGameSession.setPrefix("----------");
-//        remoteGameSession.setPlayer(GreedyPlayer.class);
-//        remoteGameSession.start();
-//
-//
-//        try {
-//            TimeUnit.SECONDS.sleep(60);
-//            remoteGameSession.stop();
-//            remoteGameSession2.stop();
-//            remoteGameSession3.stop();
-//        } catch (InterruptedException e) {
-//
-//        }
+//        runMatrixBot(PRISONERS_URL, GreedyPlayer.class, 30, false, "[1] ");
 
-        laba2Simulation();
+//        laba2Simulation();
+
+        runContributorBot(GreedyContributor.class, 20, true, "[1]");
 
     }
 
+    private void runMatrixBot(String serverUrl, Class<? extends Player> playerClass,
+                              int timeoutSeconds, boolean debug, String logPrefix) {
+
+        RemoteGameSession remoteGameSession = new RemoteGameSession();
+        remoteGameSession.setUri(serverUrl);
+        remoteGameSession.setPrefix(logPrefix);
+        remoteGameSession.setPlayer(playerClass);
+        remoteGameSession.setDebug(debug);
+        remoteGameSession.start();
+
+        try {
+            TimeUnit.SECONDS.sleep(timeoutSeconds);
+            remoteGameSession.stop();
+        } catch (InterruptedException e) {
+
+        }
+    }
+
+    private void runContributorBot( Class<? extends Contributor> playerClass,
+                              int timeoutSeconds, boolean debug, String logPrefix) {
+
+        ContributorGameSession contributorGameSession = new ContributorGameSession();
+        contributorGameSession.setUri(CONTRIBUTOR_URL);
+        contributorGameSession.setPrefix(logPrefix);
+        contributorGameSession.setPlayer(playerClass);
+        contributorGameSession.setDebug(debug);
+        contributorGameSession.start();
+
+        try {
+            TimeUnit.SECONDS.sleep(timeoutSeconds);
+            contributorGameSession.stop();
+        } catch (InterruptedException e) {
+
+        }
+    }
 
     private void laba1Simulation() {
         final AdvancedPlayer mainPlayer = new AdvancedPlayer("Main");

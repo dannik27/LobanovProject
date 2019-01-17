@@ -18,6 +18,7 @@ public class RemoteGameSession {
     private Class<? extends Player> playerClass;
     private GameSocket websocket;
     private String prefix;
+    private boolean debug = true;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -38,7 +39,6 @@ public class RemoteGameSession {
             public void onConnect(String name, String version) {
                 System.out.printf("%s Connected to server. Game: %s; Version: %s \n", prefix, name, version);
 
-                boolean debug = BooleanUtils.toBoolean(System.getProperty("game.debug"));
                 String login = System.getProperty("game.login");
                 String password = System.getProperty("game.password");
 
@@ -150,5 +150,7 @@ public class RemoteGameSession {
         this.prefix = prefix;
     }
 
-
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
 }
